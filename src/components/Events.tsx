@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, EffectCoverflow } from 'swiper/modules';
+import React, { useEffect, useState, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectCoverflow } from "swiper/modules";
 
-// Import Swiper core styles natively
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
+import "swiper/css";
+import "swiper/css/effect-coverflow";
 
 interface EventItem {
   title: string[];
@@ -23,7 +22,7 @@ export default function Events() {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.02 },
     );
 
     if (sectionRef.current) {
@@ -33,82 +32,91 @@ export default function Events() {
     return () => observer.disconnect();
   }, []);
 
-  // Defined list of flagship events from the site markup
   const festivalEvents: EventItem[] = [
-    { title: ['Baak', 'Bitorko'], subtitle: 'Debate Competition' },
-    { title: ['Khône', 'Kotha'], subtitle: 'Extempore Competition' },
-    { title: ['Antaraal'], subtitle: 'Poetry Competitions' },
-    { title: ['Akshorbongo'], subtitle: 'Creative Writing Competition' },
+    { title: ["Baak", "Bitorko"], subtitle: "Debate Competition" },
+    { title: ["Khône", "Kotha"], subtitle: "Extempore Competition" },
+    { title: ["Antaraal"], subtitle: "Poetry Competitions" },
+    { title: ["Akshorbongo"], subtitle: "Creative Writing Competition" },
   ];
 
-  // We duplicate the array locally to ensure Swiper has plenty of slides for a seamless infinite loop track
-  const loopedEvents = [...festivalEvents, ...festivalEvents, ...festivalEvents];
+  const loopedEvents = [
+    ...festivalEvents,
+    ...festivalEvents,
+    ...festivalEvents,
+  ];
 
   return (
     <div
+      id="events"
       ref={sectionRef}
-      className={`bg-[#EFE0BE] py-16 transition-all duration-1000 ease-out transform select-none ${
-        isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-[100px]'
+      className={`bg-[#EFE0BE] py-16 transition-all duration-700 ease-out transform select-none overflow-hidden ${
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-[70px]"
       }`}
     >
-      {/* Section Title */}
-      <div className="flex w-full items-center justify-center font-pirata text-5xl mb-10 text-black">
+      <div className="flex w-full items-center justify-center font-pirata text-5xl mb-12 text-black">
         Events
       </div>
 
-      {/* Swiper Carousel Mounting Container */}
-      <div className="w-full px-4 overflow-hidden">
+      <div className="w-full overflow-hidden">
         <Swiper
           modules={[Autoplay, EffectCoverflow]}
-          effect={'coverflow'}
+          effect="coverflow"
           grabCursor={true}
           centeredSlides={true}
-          slidesPerView={'auto'}
           loop={true}
+          slidesPerView={1.2}
+          spaceBetween={300}
+          speed={2000}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
           }}
           coverflowEffect={{
-            rotate: 5,
+            rotate: 45,
             stretch: 0,
-            depth: 60,
-            modifier: 2,
+            depth: 80,
+            modifier: 1,
             slideShadows: false,
           }}
-          className="w-full !overflow-visible"
+          breakpoints={{
+            640: {
+              slidesPerView: 2.2,
+              spaceBetween: 28,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 32,
+            },
+          }}
+          className="!px-6 md:!px-12"
         >
           {loopedEvents.map((event, index) => (
-            <SwiperSlide 
-              key={index} 
-              className="!w-[300px] md:!w-[380px] flex justify-center mx-4"
+            <SwiperSlide
+              key={index}
+              className="flex justify-center items-center py-4"
             >
-              <div className="flex flex-col items-center gap-4 justify-center pb-4">
-                
-                {/* Event Frame Card Stack */}
-                <div className="relative h-[420px] w-[280px] md:h-[500px] md:w-[350px] overflow-hidden rounded-xl shadow-md group">
-                  {/* Layer 1: Solid base background fill matching section */}
+              <div className="flex flex-col items-center gap-4 justify-center w-full">
+                <div className="relative h-[410px] w-[270px] md:h-[510px] md:w-[340px] mx-auto overflow-hidden rounded-xl">
                   <div className="absolute inset-0 bg-[#EFE0BE]" />
-                  
-                  {/* Layer 2: Inside dynamic graphic asset view */}
-                  <div className="absolute top-8 left-6 right-6 bottom-0 overflow-hidden rounded-md">
+
+                  <div className="absolute top-[38px] left-[26px] right-[26px] bottom-0 overflow-hidden rounded-md">
                     <img
                       alt="event background graphic"
                       src="/event-section.png"
-                      className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                      className="object-cover w-full h-full"
                     />
                   </div>
 
-                  {/* Layer 3: Overlaying Dynamic Native Type text layout */}
-                  <div className="absolute inset-0 flex items-center justify-center mb-16 z-10 pointer-events-none">
-                    <h3 className="font-pirata text-3xl md:text-4xl leading-tight text-center text-black">
+                  <div className="absolute inset-0 flex items-center justify-center mb-24 z-10 pointer-events-none">
+                    <h3 className="font-pirata text-3xl md:text-4xl leading-tight text-center text-black tracking-wide">
                       {event.title.map((line, i) => (
-                        <span key={i} className="block">{line}</span>
+                        <span key={i} className="block">
+                          {line}
+                        </span>
                       ))}
                     </h3>
                   </div>
 
-                  {/* Layer 4: The classic aesthetic custom outer structural frame */}
                   <img
                     alt="window decorative framing outline"
                     src="/window.png"
@@ -116,11 +124,9 @@ export default function Events() {
                   />
                 </div>
 
-                {/* Event Descriptive Label Tag */}
-                <h4 className="font-montserrat font-semibold text-sm md:text-base text-black/80 tracking-wide text-center">
+                <h4 className="font-montserrat font-bold text-sm md:text-sm text-black tracking-wide text-center mt-2">
                   {event.subtitle}
                 </h4>
-
               </div>
             </SwiperSlide>
           ))}

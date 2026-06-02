@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Hero from './components/hero';
 import About from './components/About';
 import Stats from './components/Stats';
