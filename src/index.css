@@ -1,0 +1,14 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Pirata+One&family=Poppins:wght@400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-pirata: "Pirata One", system-ui;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+}
+
+.clean-ticker-linear .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
