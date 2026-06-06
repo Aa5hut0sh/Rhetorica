@@ -1,8 +1,8 @@
 
-import Hero from './components/hero';
+import Hero from './components/Hero';
 import About from './components/About';
 import Stats from './components/Stats';
-import Timer from './components/timer';
+import Timer from './components/Timer';
 import Events from './components/Events';
 import Collab from './components/Collab';
 import Map from './components/Map';
